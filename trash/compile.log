@@ -1,0 +1,32 @@
+Using built-in specs.
+COLLECT_GCC=gcc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/4.6/lto-wrapper
+Target: arm-linux-gnueabihf
+Configured with: ../src/configure -v --with-pkgversion='Debian 4.6.3-14+rpi1' --with-bugurl=file:///usr/share/doc/gcc-4.6/README.Bugs --enable-languages=c,c++,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-4.6 --enable-shared --enable-linker-build-id --with-system-zlib --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.6 --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --enable-gnu-unique-object --enable-plugin --enable-objc-gc --disable-sjlj-exceptions --with-arch=armv6 --with-fpu=vfp --with-float=hard --enable-checking=release --build=arm-linux-gnueabihf --host=arm-linux-gnueabihf --target=arm-linux-gnueabihf
+Thread model: posix
+gcc version 4.6.3 (Debian 4.6.3-14+rpi1) 
+COLLECT_GCC_OPTIONS='-I' '/usr/local/include/SDL2' '-D' '_REENTRANT' '-L/usr/local/lib' '-v' '-o' 'myprog' '-march=armv6' '-mfloat-abi=hard' '-mfpu=vfp'
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/cc1plus -quiet -v -I /usr/local/include/SDL2 -imultilib . -imultiarch arm-linux-gnueabihf -D_GNU_SOURCE -D _REENTRANT main.cpp -quiet -dumpbase main.cpp -march=armv6 -mfloat-abi=hard -mfpu=vfp -auxbase main -version -o /tmp/ccgOHet5.s
+GNU C++ (Debian 4.6.3-14+rpi1) version 4.6.3 (arm-linux-gnueabihf)
+	compiled by GNU C version 4.6.3, GMP version 5.0.5, MPFR version 3.1.0-p10, MPC version 0.9
+GGC heuristics: --param ggc-min-expand=93 --param ggc-min-heapsize=118666
+ignoring nonexistent directory "/usr/local/include/arm-linux-gnueabihf"
+ignoring nonexistent directory "/usr/lib/gcc/arm-linux-gnueabihf/4.6/../../../../arm-linux-gnueabihf/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/local/include/SDL2
+ /usr/include/c++/4.6
+ /usr/include/c++/4.6/arm-linux-gnueabihf/.
+ /usr/include/c++/4.6/backward
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include
+ /usr/local/include
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed
+ /usr/include/arm-linux-gnueabihf
+ /usr/include
+End of search list.
+GNU C++ (Debian 4.6.3-14+rpi1) version 4.6.3 (arm-linux-gnueabihf)
+	compiled by GNU C version 4.6.3, GMP version 5.0.5, MPFR version 3.1.0-p10, MPC version 0.9
+GGC heuristics: --param ggc-min-expand=93 --param ggc-min-heapsize=118666
+Compiler executable checksum: 64a5da90acce21afabe8e916f286e44e
+main.cpp:4:28: fatal error: SDL/SDL_image.h: No such file or directory
+compilation terminated.

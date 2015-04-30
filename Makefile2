@@ -1,0 +1,10 @@
+STD = -std=c++0x
+SDLFLG = `sdl2-config --cflags --libs` -lSDL2_image -lSDL2_ttf
+all: main2.o WeatherApiClass.o 
+	g++ $(STD) main2.o WeatherApiClass.o  $(SDLFLG)
+main2.o:
+	g++ $(STD) -c main2.cpp $(SDLFLG)
+WeatherApiClass.o:
+	g++ -c WeatherApiClass.cpp
+clean:
+	rm -f *.o all 
