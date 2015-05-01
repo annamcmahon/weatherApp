@@ -16,7 +16,7 @@ sdlClass::sdlClass(string filenameStr_, vector<string> temp_, int delay_) {
 	SCREENWIDTH = 592;
 	SCREENHEIGHT = 448;
 	InitEverything();		
-	SDL_Color textColor = { 255,255,255 }; // white
+	SDL_Color textColor = { 0, 0, 0, 255 } ; // white
 	SDL_Color backgroundColor = { 0, 0, 0}; // black
 	delay = delay_;
 		
@@ -150,14 +150,14 @@ void sdlClass::CreateTextTextures() {
                  textTexture = SurfaceToTexture( surf );
                  SDL_QueryTexture( textTexture, NULL, NULL, &textRect.w, &textRect.h );
                  textRect.x = 20;  textRect.y = 20;
-		textRect.w= textRect.w/20; textRect.h =textRect.h/20;
+		textRect.w= textRect.w/10; textRect.h =textRect.h/10;
                  textures.push_back(textTexture);
                  Rects.push_back(textRect);
 		int lastBottom = textRect.h+20; 
 		
 		for(std::vector<string>::iterator it = moreWeatherData.begin(); it != moreWeatherData.end(); ++it) {
 			
-			surf = TTF_RenderText_Solid( font, (*it).c_str(), textColor );
+			surf = TTF_RenderText_Solid( font, (*it).c_str(), { 0, 0, 0, 255 } );
 			textTexture = SurfaceToTexture( surf );
 			SDL_QueryTexture( textTexture, NULL, NULL, &textRect.w, &textRect.h );
 			textRect.w  =textRect.w/2;  textRect.h =textRect.h/2;
