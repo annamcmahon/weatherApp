@@ -1,0 +1,7 @@
+STD = -std=c++0x
+all: getWeatherData
+	g++ $(STD) getWeatherData.cpp
+keypress:
+	g++ $(STD) keypress.cpp
+clean:
+	rm getWeatherData.o

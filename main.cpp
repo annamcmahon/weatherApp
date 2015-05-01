@@ -6,15 +6,15 @@
 #include "sdlClass.h"
 #include <vector>
 using namespace std;
-int main(int argc, char** argv) {	
+int main(int argc, char** argv) {
+	string woeid= "91418771";	
+	cout<< "please Enter Your woeid: (Notre Dame's is 91418771)"<<endl;
+	cin >> woeid; 
 	vector<string> temp; // temperature
 	int weatherConditionCode; // code used by yahoo weather api
-	WeatherApiClass weatherApi; // declaring object
+	WeatherApiClass weatherApi(woeid); // declaring object
 	weatherConditionCode = weatherApi.getCode(); // returns int code	
 	temp = weatherApi.getTemp(); // returns string with temperature
-	for(std::vector<string>::iterator it = temp.begin(); it != temp.end(); ++it) {
-                std::cout << *it;
-        }
 	weatherApi.commandLinePrint(); // prints to cout
 	string pictureFilenameString = weatherApi.getPicFilename(); // gets filename excluding extension (relative path as well)
 	int delay = 5000; // 5 seconds

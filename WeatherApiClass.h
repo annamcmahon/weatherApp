@@ -8,7 +8,7 @@ using boost::property_tree::ptree;
 using namespace std;
 class WeatherApiClass {
 public:
-	WeatherApiClass();
+	WeatherApiClass(string);
 	void commandLinePrint();
 	int getCode();
 	vector<string> getTemp();

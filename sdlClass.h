@@ -9,6 +9,8 @@
 #include <tuple>
 #include <boost/tuple/tuple.hpp>
 using namespace std;
+
+
 class sdlClass {
 public:
 	sdlClass(string,vector<string> ,int);
@@ -17,7 +19,8 @@ private:
 
 	int delay;
 	string filenameStr;
-
+	void Render();
+	void RunGame(); 
 	string filenameStr2;
 	vector<string> temp;
 	int* screenheight;

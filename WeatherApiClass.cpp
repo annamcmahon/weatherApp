@@ -7,7 +7,8 @@
 #include <vector>
 using namespace std;
 using boost::property_tree::ptree;
-WeatherApiClass::WeatherApiClass() {
+WeatherApiClass::WeatherApiClass(string woeidLookUp) {
+	woeid= woeidLookUp;
 	queryWeatherApiForSimpleStats();
 	read_json(weatherDataFile, pt);// make the property tree from the weatherData file
 	weatherConditionCode = getWeatherConditionCode();
@@ -47,14 +48,12 @@ int WeatherApiClass::getWeatherConditionCode() {
 	return code;
 }
 void WeatherApiClass::queryWeatherApiForSimpleStats() {
-        woeid = "91418771"; // this is the location
         system(("curl https://query.yahooapis.com/v1/public/yql \
                         -d q=\"select item.condition from weather.forecast where woeid="+woeid+"\" \
                         -d format=json > weatherDataFile").c_str());
         weatherDataFile = "weatherDataFile";
 }
 void WeatherApiClass::queryWeatherApiForExtendedStats() {
-	 woeid = "91418771"; // this is the location
          system(("curl https://query.yahooapis.com/v1/public/yql \
                         -d q=\"select * from weather.forecast where woeid="+woeid+"\" \
                         -d format=json > weatherDataFileExtended").c_str());

@@ -125,6 +125,7 @@ int main(int, char*[]) {
         tagfile = "file2";
         read_json(tagfile, pt);
 	parseForFullPath( pt, "query.results.channel.item.forecast.");
+	parseForFullPath( pt, "Mon");
 	cerr << endl; // cerr is like cout but error checking(?), outputs immediately
 }
 

@@ -10,7 +10,6 @@
 #include <tuple>
 using namespace std;
 //using boost::tuple;
-
 sdlClass::sdlClass(string filenameStr_, vector<string> temp_, int delay_) {
 
         temp = temp_;
@@ -28,18 +27,20 @@ sdlClass::sdlClass(string filenameStr_, vector<string> temp_, int delay_) {
  	 
 	CreateTextTextures();
 	for(int i = 0; i< textures.size(); i++){
-                SDL_RenderCopy( renderer, textures.at(i), nullptr, &(Rects.at(i)));
+               SDL_RenderCopy( renderer, textures.at(i), nullptr, &(Rects.at(i)));
 	}
 	SDL_RenderPresent(renderer);
-
-	SDL_Delay(10000);
-
+	RunGame();
+	std::cout << "Press any key to exit\n";
+        std::cin.ignore();
      // Clear the allocated resources
 	SDL_DestroyTexture(imageTexture);
 	IMG_Quit();
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+	
+
 }
 
  // initialize SDL2_TTF
@@ -191,6 +192,24 @@ void sdlClass::CreateImageTextures(string filenameStr) {
 	imageDestRect3.w = SCREENWIDTH/15; imageDestRect3.h = SCREENWIDTH/15;
 	textures.push_back(imageTexture);  textures.push_back(imageTexture2);  textures.push_back(imageTexture3);
 	Rects.push_back(imageDestRect);Rects.push_back(imageDestRect2);Rects.push_back(imageDestRect3);
+}
+void sdlClass::RunGame()
+{
+        Render();
+        std::cout << "Press any key to exit\n";
+        std::cin.ignore();
+}
+void  sdlClass::Render()
+{
+ SDL_RenderClear(renderer);
+
+        CreateImageTextures(filenameStr );
+
+        CreateTextTextures();
+        for(int i = 0; i< textures.size(); i++){
+                SDL_RenderCopy( renderer, textures.at(i), nullptr, &(Rects.at(i)));
+        }
+        SDL_RenderPresent(renderer);
 
 }
 
