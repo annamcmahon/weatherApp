@@ -83,4 +83,38 @@ int main(int, char*[]) {
 		cout<< ": " << v.second.data()<< endl; // v.second is the child tree
 	}
 	
+
+	 woeid = "91418771"; // this is the location
+         system(("curl https://query.yahooapis.com/v1/public/yql \
+                        -d q=\"select * from weather.forecast where woeid="+woeid+"\" \
+                        -d format=json > weatherDataFileExtended").c_str());
+        weatherDataFileExtended = "weatherDataFileExtended";
+
+
+	   string woeid = "91418771"; // this is the location
+
+        system(("curl https://query.yahooapis.com/v1/public/yql \
+                        -d q=\"select item.condition from weather.forecast where woeid="+woeid+"\" \
+                        -d format=json > file2").c_str());
+
+        
+        string tagfile = "file2";
+        ptree pt;   // "ptree" or property tree is a struct defined by boosts' lib
+        read_json(tagfile, pt);
+
+        printTree(pt, 0); // prints the whole pt tree nicely depends on indent function, to get and use this function see parseTree.cpp
+        parseForFullPath(pt, ""); // this gives you all the full paths,  which can be used in the below function
+
+
+
+        // another way to loop through tree
+        BOOST_FOREACH(const ptree::value_type &v, pt.get_child("query.results.channel.item.condition")) {
+                cout<< v.first; // v.first is the name of the child
+                cout<< ": " << v.second.data()<< endl; // v.second is the child tree
+        }
+
+
+
+
+	
 }

@@ -20,10 +20,16 @@ WeatherApiClass::WeatherApiClass() {
 	date = findDataMemberWithFullPathString(pt, "query.results.channel.item.forecast..date");
 	high = findDataMemberWithFullPathString(pt, "query.results.channel.item.forecast..high");
 	low = findDataMemberWithFullPathString(pt, "query.results.channel.item.forecast..low");
+	city = findDataMemberWithFullPathString(pt, "query.results.channel.location.city");
+	state = findDataMemberWithFullPathString(pt, "query.results.channel.location.region");
+	allTemps.push_back(date);
 	allTemps.push_back(temp); 
-        allTemps.push_back(high);
+        allTemps.push_back(textDescription);
+	allTemps.push_back(high);
         allTemps.push_back(low);
-
+	allTemps.push_back(city);
+	allTemps.push_back(state);
+	
 	fillMaps();
 }
 void WeatherApiClass::commandLinePrint() {
@@ -63,6 +69,15 @@ int WeatherApiClass::getCode() {
 vector<string> WeatherApiClass::getTemp() {
 	return allTemps;
 }
+string WeatherApiClass::getDate() {
+        return date;
+}
+string WeatherApiClass::getCondition() {
+        return textDescription;
+}
+
+
+
 string WeatherApiClass::getPicFilename() {
 	return weatherCodeMapReduced[weatherConditionCode];
 }

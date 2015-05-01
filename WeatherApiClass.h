@@ -13,6 +13,8 @@ public:
 	int getCode();
 	vector<string> getTemp();
 	string getPicFilename();
+	string getDate();
+	string getCondition();
 private:
 	void queryWeatherApiForSimpleStats();
 	void fillMaps();
@@ -26,7 +28,7 @@ private:
 	string woeid; // this is the location
 	string code; // this is the weather code gotten from the API, used to determine image display
 	ptree pt;   // "ptree" or property tree is a struct defined by boosts' lib
-	string temp, textDescription, date, high, low; // all the variables to parse for
+	string temp, textDescription, date, high, low, city, state; // all the variables to parse for
 	map<int,string> weatherCodeMap;
 	map<int,string> weatherCodeMapReduced;
 };

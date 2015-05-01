@@ -13,14 +13,15 @@ class sdlClass {
 public:
 	sdlClass(string,vector<string> ,int);
 private:
+        vector<string> moreWeatherDetails;
 
 	int delay;
 	string filenameStr;
 
 	string filenameStr2;
 	vector<string> temp;
-int* screenheight;
-int* screenwidth;	
+	int* screenheight;
+	int* screenwidth;	
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Color textColor; 
