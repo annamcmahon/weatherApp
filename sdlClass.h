@@ -2,18 +2,20 @@
 #define ____sdlClass__
 #include <iostream>
 #include <SDL2/SDL.h>
-//#include <SDL2/SDL_ttf.h> 
+#include <SDL2/SDL_ttf.h> 
 #include <SDL2/SDL_image.h>
 #include "renderableImage.h"
-
+#include <vector>
 using namespace std;
 class sdlClass {
 public:
-	sdlClass(string,string,int);
+	sdlClass(string,vector<string> ,int);
 private:
 	int delay;
 	string filenameStr;
-	string temp;
+	string filenameStr2;
+	vector<string> temp;
+	
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Color textColor; 
@@ -29,6 +31,7 @@ private:
         SDL_Texture *imageTexture2;
 	void sdlStuff(string, int);
 	//set up/ initialize SDL things 
+
 	bool InitEverything();
 	bool InitSDL();
 	bool CreateWindow();
@@ -39,7 +42,7 @@ private:
 	//other SDL funcitons
 	SDL_Texture* load_texture(const char* fname, SDL_Renderer *renderer);// Load an image from "fname" and return an SDL_Texture with the content of the image
 	void CreateTextTextures();
-	void CreateImageTextures(string);
+	void CreateImageTextures(string, string);
 	SDL_Texture* SurfaceToTexture( SDL_Surface* surf );
 	void check_error_sdl_img(bool check, const char* message);
 };

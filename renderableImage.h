@@ -29,6 +29,7 @@ public:
 	void CreaterenderableImage();
 	void check_error_sdl_img(bool, const char*);
 	SDL_Texture* load_texture(const char* );
+	void renderImage();
 private:
 	SDL_Texture* texture;
 	SDL_Rect rect;

@@ -3,6 +3,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <string>
 #include <map>
+#include <vector>
 using boost::property_tree::ptree;
 using namespace std;
 class WeatherApiClass {
@@ -10,7 +11,7 @@ public:
 	WeatherApiClass();
 	void commandLinePrint();
 	int getCode();
-	string getTemp();
+	vector<string> getTemp();
 	string getPicFilename();
 private:
 	void queryWeatherApiForSimpleStats();
@@ -19,6 +20,7 @@ private:
 	string findDataMemberWithFullPathString(const ptree&, string);
 	int getWeatherConditionCode();	
 	int weatherConditionCode;
+	vector<string> allTemps;
 	string weatherDataFile;//stores the name of the file the weahter data is queried into
 	string weatherDataFileExtended;
 	string woeid; // this is the location

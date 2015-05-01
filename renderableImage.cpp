@@ -20,16 +20,20 @@ using namespace std;
 
 renderableImage::renderableImage(string imageName,SDL_Renderer* ren ,int width, int height,int xpos, int ypos )
 {
+	renderer = ren;
 	textureImage = imageName;
 	rect.w = width;
 	rect.h = height;
 	rect.x = xpos;
 	rect.y = ypos;
-	renderer = ren;
 	CreaterenderableImage();
 	if(renderer == nullptr){
 		cout<<"shoot";
 	}
+        SDL_RenderSetLogicalSize( renderer, 1776,952 );
+        SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
+        SDL_RenderPresent(renderer);
+
 }
 
 int renderableImage::getWidth()
@@ -79,5 +83,9 @@ void renderableImage::check_error_sdl_img(bool check, const char* message) {
      }
 }
 
-
-
+void renderableImage::renderImage(){
+//  SDL_RenderCopy(renderer, texture, NULL, &rect);
+        SDL_RenderPresent(renderer);
+cout<<"render";
+        SDL_Delay(5000);
+}

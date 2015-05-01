@@ -57,9 +57,9 @@ int main(int argc, char** argv) {
 //	temp = temp_;
 //	filenameStr = filenameStr_;
 	SDL_StartTextInput();
-	bool quit = 0;
+	bool quit = 0;              
+	SDL_Event e;
 	while (!quit){
-		SDL_Event e;
 		while (SDL_PollEvent( &e ) != 0){
 			if (e.type == SDL_QUIT){
 			                      quit = 1;

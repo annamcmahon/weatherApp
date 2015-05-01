@@ -2,26 +2,50 @@
 #include <SDL2/SDL.h>
 //#include <SDL2/SDL_ttf.h> 
 #include <SDL2/SDL_image.h>
+#include <vector>
 //#include "sdlClass.h"
 #include "renderableImage.h"
 using namespace std;
-sdlClass::sdlClass(string filenameStr_, string temp_, int delay_) {
+sdlClass::sdlClass(string filenameStr_, vector<string> temp_, int delay_) {
+        temp = temp_;
+	for(std::vector<string>::iterator it = temp.begin(); it != temp.end(); ++it) {
+		std::cout << *it; 
+	}
 	InitEverything();		
 	SDL_Color textColor = { 255, 255, 255, 255 }; // white
 	SDL_Color backgroundColor = { 0, 0, 0, 255 }; // black
 	delay = delay_;
-	temp = temp_;
+	cout<< "sdlclass"<<endl;
+		
+	filenameStr2 = "cloudy";
 	filenameStr = filenameStr_;
-//	SDL_RenderClear(renderer);
-	renderableImage backgroundImage("rain", renderer, 0 , 0, 1776, 925);	
+	SDL_RenderClear(renderer);
+//	renderableImage backgroundImage("rain", renderer, 1776, 925, 0,0);	
 	
-//	CreateImageTextures(filenameStr );
-//	SDL_RenderCopy(renderer, imageTexture, NULL, &imageDestRect);
-	SDL_Rect rect = backgroundImage.getRect();
-	SDL_RenderCopy(renderer, backgroundImage.getTexture(), NULL, &rect );
+	CreateImageTextures(filenameStr, filenameStr2 );
+	SDL_RenderCopy(renderer, imageTexture, NULL, &imageDestRect);
+
+        SDL_RenderCopy(renderer, imageTexture2, NULL, &imageDestRect2);
+
+//	 imageDestRect2 = backgroundImage.getRect();
+//	cout << imageDestRect.h<<endl;
+//	cout << imageDestRect.w<<endl;
+//	cout << imageDestRect.x<<endl;
+//	cout << imageDestRect.y<<endl;
+//	imageTexture2 = backgroundImage.getTexture();
+//	if (rect == nullptr){
+//		cout<< "rect is null";
+//	}
+//	if(backgroundImage.getTexture() == nullptr){
+//		cout << "texture is null"; 
+//	}
+//	backgroundImage.renderImage();	
+  
+
 	CreateTextTextures();
 	SDL_RenderCopy( renderer, solidTexture, nullptr, &solidRect );
 //	SDL_RenderCopy(renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+
 	SDL_RenderPresent(renderer);
 
 	SDL_Delay(delay);
@@ -122,14 +146,15 @@ void sdlClass::SetupRenderer() {
         // Set size of renderer to the same as window
         SDL_RenderSetLogicalSize( renderer, 1776,952 );
         // Set color of renderer to red
-        SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
+//        SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
 }
 void sdlClass::CreateTextTextures() {
 	// temp += "\xB0";
 	string varStr = "7";
 	//string varStr = "\xB0"; // degree symbol
-	varStr = temp + "\xB0";
-        SDL_Surface* solid = TTF_RenderText_Solid( font, varStr.c_str(), textColor );
+	cout << "temp sdlclass"<<endl;
+	varStr = temp.at(0) + "\xB0";
+	  SDL_Surface* solid = TTF_RenderText_Solid( font, varStr.c_str(), textColor );
         solidTexture = SurfaceToTexture( solid );
 
         SDL_QueryTexture( solidTexture, NULL, NULL, &solidRect.w, &solidRect.h );
@@ -142,9 +167,13 @@ SDL_Texture* sdlClass::SurfaceToTexture( SDL_Surface* surf ) {
         SDL_FreeSurface( surf );
         return text;
 }                  
-void sdlClass::CreateImageTextures(string filenameStr) {
-     imageTexture = load_texture(("imgs/"+filenameStr+".bmp").c_str(), renderer); //CHANGED "img_test.png"
+void sdlClass::CreateImageTextures(string filenameStr, string filenameStr2) {
+     imageTexture = load_texture(("imgs/weatherBackground/"+filenameStr).c_str(), renderer); //CHANGED "img_test.png"
      // We need to create a destination rectangle for the image (where we want this to be show) on the renderer area
      imageDestRect.x = 0; imageDestRect.y = 0;
      imageDestRect.w = 1776; imageDestRect.h = 952;
+ imageTexture2 = load_texture("/home/pi/weatherApp/imgs/weatherDog/sunny", renderer); //CHANGED "img_test.png"
+     // We need to create a destination rectangle for the image (where we want this to be show) on the renderer area
+     imageDestRect2.x = 0; imageDestRect2.y = 0;
+     imageDestRect2.w = 200; imageDestRect2.h = 200;
 }

@@ -4,6 +4,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <string>
 #include <map>
+#include <vector>
 using namespace std;
 using boost::property_tree::ptree;
 WeatherApiClass::WeatherApiClass() {
@@ -19,6 +20,10 @@ WeatherApiClass::WeatherApiClass() {
 	date = findDataMemberWithFullPathString(pt, "query.results.channel.item.forecast..date");
 	high = findDataMemberWithFullPathString(pt, "query.results.channel.item.forecast..high");
 	low = findDataMemberWithFullPathString(pt, "query.results.channel.item.forecast..low");
+	allTemps.push_back(temp); 
+        allTemps.push_back(high);
+        allTemps.push_back(low);
+
 	fillMaps();
 }
 void WeatherApiClass::commandLinePrint() {
@@ -55,8 +60,8 @@ string WeatherApiClass::findDataMemberWithFullPathString(const ptree& pt, string
 int WeatherApiClass::getCode() {
 	return weatherConditionCode;
 }
-string WeatherApiClass::getTemp() {
-	return temp;
+vector<string> WeatherApiClass::getTemp() {
+	return allTemps;
 }
 string WeatherApiClass::getPicFilename() {
 	return weatherCodeMapReduced[weatherConditionCode];
@@ -140,10 +145,10 @@ void WeatherApiClass::fillMaps() {
 	weatherCodeMapReduced.insert( pair<int,string>(23, "reducedVis") );
 	weatherCodeMapReduced.insert( pair<int,string>(24, "reducedVis") );
 	weatherCodeMapReduced.insert( pair<int,string>(26, "cloudy") );
-	weatherCodeMapReduced.insert( pair<int,string>(27, "cloudy") );
+	weatherCodeMapReduced.insert( pair<int,string>(27, "cloudynight") );
 	weatherCodeMapReduced.insert( pair<int,string>(28, "cloudy") );
 	weatherCodeMapReduced.insert( pair<int,string>(29, "cloudy") );
-	weatherCodeMapReduced.insert( pair<int,string>(30, "cloudy") );
+	weatherCodeMapReduced.insert( pair<int,string>(30, "cloudynight") );
 	weatherCodeMapReduced.insert( pair<int,string>(44, "cloudy") );
 	weatherCodeMapReduced.insert( pair<int,string>(31, "sunny") );
 	weatherCodeMapReduced.insert( pair<int,string>(32, "sunny") );
