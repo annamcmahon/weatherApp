@@ -5,50 +5,34 @@
 #include <vector>
 //#include "sdlClass.h"
 #include "renderableImage.h"
+//#include <boost/tuple/tuple.hpp>
+//#include <boost/iterator/zip_iterator.hpp>
+#include <tuple>
 using namespace std;
+//using boost::tuple;
+
 sdlClass::sdlClass(string filenameStr_, vector<string> temp_, int delay_) {
+
         temp = temp_;
-	for(std::vector<string>::iterator it = temp.begin(); it != temp.end(); ++it) {
-		std::cout << *it; 
-	}
+	SCREENWIDTH = 1776;
+	SCREENHEIGHT = 952;	
 	InitEverything();		
 	SDL_Color textColor = { 255, 255, 255, 255 }; // white
 	SDL_Color backgroundColor = { 0, 0, 0, 255 }; // black
 	delay = delay_;
-	cout<< "sdlclass"<<endl;
 		
-	filenameStr2 = "cloudy";
 	filenameStr = filenameStr_;
 	SDL_RenderClear(renderer);
-//	renderableImage backgroundImage("rain", renderer, 1776, 925, 0,0);	
 	
-	CreateImageTextures(filenameStr, filenameStr2 );
-	SDL_RenderCopy(renderer, imageTexture, NULL, &imageDestRect);
-
-        SDL_RenderCopy(renderer, imageTexture2, NULL, &imageDestRect2);
-
-//	 imageDestRect2 = backgroundImage.getRect();
-//	cout << imageDestRect.h<<endl;
-//	cout << imageDestRect.w<<endl;
-//	cout << imageDestRect.x<<endl;
-//	cout << imageDestRect.y<<endl;
-//	imageTexture2 = backgroundImage.getTexture();
-//	if (rect == nullptr){
-//		cout<< "rect is null";
-//	}
-//	if(backgroundImage.getTexture() == nullptr){
-//		cout << "texture is null"; 
-//	}
-//	backgroundImage.renderImage();	
-  
-
+	CreateImageTextures(filenameStr );
+ 	 
 	CreateTextTextures();
-	SDL_RenderCopy( renderer, solidTexture, nullptr, &solidRect );
-//	SDL_RenderCopy(renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
-
+	for(int i = 0; i< textures.size(); i++){
+                SDL_RenderCopy( renderer, textures.at(i), nullptr, &(Rects.at(i)));
+	}
 	SDL_RenderPresent(renderer);
 
-	SDL_Delay(delay);
+	SDL_Delay(10000);
 
      // Clear the allocated resources
 	SDL_DestroyTexture(imageTexture);
@@ -126,7 +110,7 @@ bool sdlClass::InitSDL() {
         return true;
 }
 bool sdlClass::CreateWindow() {
-	window = SDL_CreateWindow("Test SDL 2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1776,952, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	window = SDL_CreateWindow("Test SDL 2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREENWIDTH, SCREENHEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
         if ( window == nullptr )
         {
                 std::cout << "Failed to create window : " << SDL_GetError();
@@ -144,22 +128,50 @@ bool sdlClass::CreateRenderer() {
 }
 void sdlClass::SetupRenderer() {
         // Set size of renderer to the same as window
-        SDL_RenderSetLogicalSize( renderer, 1776,952 );
+        SDL_RenderSetLogicalSize( renderer, SCREENWIDTH, SCREENHEIGHT );
         // Set color of renderer to red
 //        SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
 }
 void sdlClass::CreateTextTextures() {
 	// temp += "\xB0";
 	string varStr = "7";
+	
 	//string varStr = "\xB0"; // degree symbol
-	cout << "temp sdlclass"<<endl;
-	varStr = temp.at(0) + "\xB0";
-	  SDL_Surface* solid = TTF_RenderText_Solid( font, varStr.c_str(), textColor );
-        solidTexture = SurfaceToTexture( solid );
+	varStr =temp.at(0) + "\xB0";
+	  SDL_Surface* surf = TTF_RenderText_Solid( font, varStr.c_str(), textColor );
+        textTexture = SurfaceToTexture( surf );
+        SDL_QueryTexture( textTexture, NULL, NULL, &textRect.w, &textRect.h );
+         textRect.w  =textRect.w*3;
+        textRect.h =textRect.h*3;
+	textRect.x = SCREENWIDTH/2 - (textRect.w)/2;
+        textRect.y = SCREENHEIGHT/2 - (textRect.h)/2;
+	 textures.push_back(textTexture);
+        Rects.push_back(textRect);
+	
+	int w, h;
+        varStr = "high:" + temp.at(1);
+	 surf = TTF_RenderText_Solid( font, varStr.c_str(), textColor );
+        textTexture = SurfaceToTexture( surf );
+        SDL_QueryTexture( textTexture, NULL, NULL, &w, &h );
+	 textRect.w = textRect.w/5;
+        textRect.h = textRect.w/5;
+        textRect.y = SCREENHEIGHT/2 + 100;
+	   textRect.x = SCREENWIDTH/2;
+	
 
-        SDL_QueryTexture( solidTexture, NULL, NULL, &solidRect.w, &solidRect.h );
-        solidRect.x = 400;
-        solidRect.y = 0;
+	 textures.push_back(textTexture);
+        Rects.push_back(textRect);
+
+	 varStr = "low:" + temp.at(2);
+         surf = TTF_RenderText_Solid( font, varStr.c_str(), textColor );
+        textTexture = SurfaceToTexture( surf );
+        SDL_QueryTexture( textTexture, NULL, NULL, &textRect.w, &textRect.h );
+        textRect.x = SCREENWIDTH/2;
+        textRect.y = SCREENHEIGHT/2 + 200;
+	
+	textures.push_back(textTexture);
+        Rects.push_back(textRect);
+
 }
 SDL_Texture* sdlClass::SurfaceToTexture( SDL_Surface* surf ) {
         SDL_Texture* text;
@@ -167,13 +179,20 @@ SDL_Texture* sdlClass::SurfaceToTexture( SDL_Surface* surf ) {
         SDL_FreeSurface( surf );
         return text;
 }                  
-void sdlClass::CreateImageTextures(string filenameStr, string filenameStr2) {
+void sdlClass::CreateImageTextures(string filenameStr) {
      imageTexture = load_texture(("imgs/weatherBackground/"+filenameStr).c_str(), renderer); //CHANGED "img_test.png"
      // We need to create a destination rectangle for the image (where we want this to be show) on the renderer area
      imageDestRect.x = 0; imageDestRect.y = 0;
-     imageDestRect.w = 1776; imageDestRect.h = 952;
- imageTexture2 = load_texture("/home/pi/weatherApp/imgs/weatherDog/sunny", renderer); //CHANGED "img_test.png"
-     // We need to create a destination rectangle for the image (where we want this to be show) on the renderer area
-     imageDestRect2.x = 0; imageDestRect2.y = 0;
-     imageDestRect2.w = 200; imageDestRect2.h = 200;
+     imageDestRect.w = SCREENWIDTH; imageDestRect.h = SCREENHEIGHT;
+
+	 imageTexture2 = load_texture(("imgs/weatherDog/"+filenameStr).c_str(), renderer); //CHANGED "img_test.png"
+	imageDestRect2.x =SCREENWIDTH -SCREENWIDTH/7 ; imageDestRect2.y = 0;
+    imageDestRect2.w = SCREENWIDTH/6; imageDestRect2.h = SCREENWIDTH/6;
+
+	 imageTexture3 = load_texture(("imgs/weatherIcon/"+filenameStr).c_str(), renderer); //CHANGED "img_test.png"
+     imageDestRect3.x = 20; imageDestRect3.y = 20;
+     imageDestRect3.w = SCREENWIDTH/15; imageDestRect3.h = SCREENWIDTH/15;
+	textures.push_back(imageTexture);  textures.push_back(imageTexture2);  textures.push_back(imageTexture3);
+	Rects.push_back(imageDestRect);Rects.push_back(imageDestRect2);Rects.push_back(imageDestRect3);
+
 }

@@ -4,7 +4,6 @@
 #include <iostream>
 #include "WeatherApiClass.h"
 #include "sdlClass.h"
-#include "renderableImage.h"
 #include <vector>
 using namespace std;
 int main(int argc, char** argv) {	
